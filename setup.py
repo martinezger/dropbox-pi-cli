@@ -20,9 +20,9 @@ setuptools.setup(
     ],
     python_requires=">=3.7",
     py_modules=["commands",],
-    install_requires=['Click',],
-    entry_points='''
+    install_requires=["Click",],
+    entry_points="""
         [console_scripts]
         file_upload=commands:file_upload
-    ''',
+    """,
 )
