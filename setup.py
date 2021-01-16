@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="dropbox-pi-cli",
-    version="0.0.3",
+    version="0.0.4",
     author="Germán Martinez",
     author_email="germand_m@hotmail.com",
     description="A command line tool for raspberry py",
