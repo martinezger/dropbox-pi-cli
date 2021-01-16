@@ -6,6 +6,23 @@ Before start you need to setup the envar:
 export DROPBOX_ACCESS_TOKEN='YOUR AUTH TOKEN HERE'
 ```
 
+### Install
+
+after clone go the root app folder and execute
+```bash
+make -B build
+make install
+```
+
+### Uninstall
+
+go the root app folder and execute
+```bash
+make uninstall
+```
+## Usage
+The command line is only able to upload and download from/to an app folder.
+
 ### Download
 ```
 dropbox-pi file-download [OPTIONS]
