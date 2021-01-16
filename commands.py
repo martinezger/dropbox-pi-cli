@@ -60,10 +60,10 @@ def file_upload(
         "Content-Type": "application/octet-stream",
     }
 
-    with open(local_path) as payload:
+    with open(local_path, 'rb') as payload:
         click.echo("uploading ..")
         files = {"upload_file": payload}
-        res = requests.post(url=upload_url, headers=headers, files=files)
+        res = requests.post(url=upload_url, headers=headers, data=files)
 
     if res.status_code == 200:
         click.echo(f"file {local_path} successfully upload to {remote_path}")
