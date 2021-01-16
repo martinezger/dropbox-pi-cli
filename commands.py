@@ -6,11 +6,16 @@ import requests
 url = "https://content.dropboxapi.com"
 
 
-@click.command()
+@click.group()
+def dropbox_cli():
+    pass
+
+
+@dropbox_cli.command()
 @click.option(
     "--remote_path", prompt="", help="Path in the user's Dropbox to save the file"
 )
-@click.option("--local_path", help="Path in the user's local to save the file")
+@click.option("--local-path", help="Path in the user's local to save the file")
 @click.option(
     "--mode",
     default="add",
@@ -27,7 +32,7 @@ url = "https://content.dropboxapi.com"
     help="Normally, users are made aware of any file modifications in their Dropbox account via notifications in the client software. If true, this tells the clients that this modification shouldn't result in a user notification. The default for this field is False",
 )
 @click.option(
-    "--strict_conflict",
+    "--strict-conflict",
     default=False,
     help="Be more strict about how each WriteMode detects conflict. For example, always return a conflict error when mode = WriteMode.update and the given 'rev' doesn't match the existing file's 'rev', even if the existing file has been deleted. This also forces a conflict even when the target path refers to a file with identical contents. The default for this field is False",
 )
@@ -60,7 +65,7 @@ def file_upload(
         "Content-Type": "application/octet-stream",
     }
 
-    with open(local_path, 'rb') as payload:
+    with open(local_path, "rb") as payload:
         click.echo("uploading ..")
         files = {"upload_file": payload}
         res = requests.post(url=upload_url, headers=headers, data=files)
@@ -70,4 +75,53 @@ def file_upload(
         return
 
     click.echo(f"something went wrong and the file {local_path} could't be upload")
+    click.echo(f"reason: {res.text}")
+
+
+@dropbox_cli.command()
+@click.option("--remote-path", prompt="", help="The path of the file to download.")
+@click.option(
+    "--local_path",
+    prompt="",
+    default="",
+    help="The path of the file on the local moachine.",
+)
+def file_download(remote_path: str, local_path: str) -> None:
+
+    filename = os.path.split(remote_path)[-1]
+
+    if local_path == "":
+        local_path = filename
+
+    if os.path.exists(local_path):
+        click.echo(
+            f"File with path {local_path} exist, are you sure you want to overwrite?[y/n]",
+            nl=False,
+        )
+        c = click.getchar()
+
+        if c.lower() == "n":
+            return
+
+    upload_url = url + "/2/files/download"
+    auth_token = f"Bearer {os.getenv('DROPBOX_ACCESS_TOKEN')}"
+    api_arg = {
+        "path": remote_path,
+    }
+    headers = {
+        "Authorization": auth_token,
+        "Dropbox-API-Arg": json.dumps(api_arg),
+    }
+
+    res = requests.post(url=upload_url, headers=headers)
+
+    if res.status_code == 200:
+
+        with open(local_path, "wb") as file:
+            file.write(res.content)
+
+        click.echo(f"file {remote_path} successfully downloaded to {local_path}")
+        return
+
+    click.echo(f"something went wrong and the file {remote_path} could't be downloaded")
     click.echo(f"reason: {res.text}")
