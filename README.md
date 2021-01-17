@@ -34,7 +34,7 @@ Options:
 ```
 
 ### Upoload
-```bash
+```
 dropbox-pi file-upload [OPTIONS]
 
 Options:
