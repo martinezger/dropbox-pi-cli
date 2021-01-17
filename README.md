@@ -8,7 +8,7 @@ export DROPBOX_ACCESS_TOKEN='YOUR AUTH TOKEN HERE'
 
 ### Install
 
-after clone go the root app folder and execute
+after clone cd to project folder and execute
 ```bash
 make -B build
 make install
@@ -16,12 +16,12 @@ make install
 
 ### Uninstall
 
-go the root app folder and execute
+cd to project folder and execute
 ```bash
 make uninstall
 ```
 ## Usage
-The command line is only able to upload and download from/to an app folder.
+The command line is only able to upload and download from/to dropbox app folder.
 
 ### Download
 ```
