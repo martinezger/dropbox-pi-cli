@@ -13,7 +13,7 @@ def dropbox_cli():
 
 @dropbox_cli.command()
 @click.option(
-    "--remote_path", prompt="", help="Path in the user's Dropbox to save the file"
+    "--remote-path", prompt="", help="Path in the user's Dropbox to save the file"
 )
 @click.option("--local-path", help="Path in the user's local to save the file")
 @click.option(
@@ -47,7 +47,6 @@ def file_upload(
 
     if not os.path.exists(local_path):
         click.echo(f"File with path {local_path} doesn't exist")
-        click.echo(os.path.curdir)
         return
 
     upload_url = url + "/2/files/upload"
@@ -67,8 +66,7 @@ def file_upload(
 
     with open(local_path, "rb") as payload:
         click.echo("uploading ..")
-        files = {"upload_file": payload}
-        res = requests.post(url=upload_url, headers=headers, data=files)
+        res = requests.post(url=upload_url, headers=headers, data=payload)
 
     if res.status_code == 200:
         click.echo(f"file {local_path} successfully upload to {remote_path}")
@@ -81,7 +79,7 @@ def file_upload(
 @dropbox_cli.command()
 @click.option("--remote-path", prompt="", help="The path of the file to download.")
 @click.option(
-    "--local_path",
+    "--local-path",
     prompt="",
     default="",
     help="The path of the file on the local moachine.",
