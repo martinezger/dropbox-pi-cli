@@ -8,7 +8,7 @@ setuptools.setup(
     version="0.0.5",
     author="Germán Martinez",
     author_email="germand_m@hotmail.com",
-    description="A command line tool for raspberry py",
+    description="A command line tool for raspberry pi",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/martinezger/dropbox-pi-cli",
